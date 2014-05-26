@@ -9,17 +9,19 @@ import org.nlogo.api.LogoException;
 import org.nlogo.api.LogoListBuilder;
 
 /**
- * Measure distance from ideal-typical network structures.
+ * Measures distance from ideal-typical network structures.
  *
  * @author Simone Gabbriellini
  */
 public class StructuralFit extends DefaultReporter {
 
     /**
+     * Reports a LogoList with the values of the best fitting structure, as well
+     * as values for all the other structures.
      *
      * @param argmnts
      * @param cntxt
-     * @return
+     * @return LogoList
      * @throws ExtensionException
      * @throws LogoException
      */
