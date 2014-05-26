@@ -16,12 +16,7 @@ import org.nlogo.api.PrimitiveManager;
  */
 public class Hummon extends DefaultClassManager {
 
-    /** The graph to hold */
-    public static UndirectedSparseGraph<Long, String> g = null;
-    /**
-     *
-     */
-    public static DegreeScorer<Long> degScor = null;
+    
     /**
      * 
      * @param primitiveManager
@@ -36,5 +31,7 @@ public class Hummon extends DefaultClassManager {
         primitiveManager.addPrimitive("structural-fit", new StructuralFit());
         /** Invoke this primitive to initialize and clear everything. */
         primitiveManager.addPrimitive("initialize", new Initialize());
+        /** Invoke this primitive to initialize and clear everything. */
+        primitiveManager.addPrimitive("find-expected", new TheoreticalExpectedResults());
     }
 }

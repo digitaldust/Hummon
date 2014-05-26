@@ -24,7 +24,7 @@ public class StructuralFit extends DefaultReporter {
      * @throws LogoException
      */
     @Override
-    // revise this on the basis of page 224.
+    // revise this on the basis of page 234.
     public Object report(Argument[] argmnts, Context cntxt) throws ExtensionException, LogoException {
         // 0: null, 1: star, 2: shared, 3: complete
         LogoListBuilder structuralFit = new LogoListBuilder();
@@ -41,9 +41,9 @@ public class StructuralFit extends DefaultReporter {
         // retrieve the degree vector
         double[] degreeVector = new double[CoreModel.N];
         // for each node in the network
-        for (Long l : Hummon.g.getVertices()) {
+        for (Long l : CoreModel.g.getVertices()) {
             // 
-            degreeVector[l.intValue()] = Hummon.degScor.getVertexScore(l).doubleValue();
+            degreeVector[l.intValue()] = CoreModel.degScor.getVertexScore(l).doubleValue();
         }
         // sort the degree order - sort asc!!!
         Arrays.sort(degreeVector);
@@ -63,12 +63,52 @@ public class StructuralFit extends DefaultReporter {
         distBiStar = findMeanSquaredDeviation(degreeVector, idealBiStarVector);
         distShared = findMeanSquaredDeviation(degreeVector, idealSharedVector);
         distComplete = findMeanSquaredDeviation(degreeVector, idealCompleteVector);
-        //
-        structuralFit.add(distNull);
-        structuralFit.add(distStar);
-        structuralFit.add(distBiStar);
-        structuralFit.add(distShared);
-        structuralFit.add(distComplete);
+        // pick the one that is the most right...
+        // null = 0; star = 1; bistar = 2; shared = 3; complete = 4;
+        String outcome = "none";
+        // minimum value
+        double min = Double.POSITIVE_INFINITY;
+        // check if an ideal configuration has been reached
+        if (distNull == 0) {
+            outcome = "null";
+        } else if (distComplete == 0) {
+            outcome = "complete";
+        } else if (distShared == 0) {
+            outcome = "shared";
+        } else if (distBiStar == 0) {
+            outcome = "bistar";
+        } else if (distStar == 0) {
+            outcome = "star";
+        } else {
+            if (distNull < min) {
+                // do nothing
+                outcome = "near-null";
+                min = distNull;
+            }
+            if (distComplete < min) {
+                outcome = "near-complete";
+                min = distComplete;
+            }
+            if (distShared < min) {
+                outcome = "near-shared";
+                min = distShared;
+            }
+            if (distBiStar < min) {
+                outcome = "near-bistar";
+                min = distBiStar;
+            }
+            if (distStar < min) {
+                outcome = "near-star";
+            }
+        }
+        // 
+        structuralFit.add(outcome);           // 0
+        structuralFit.add(distNull);        // 1
+        structuralFit.add(distStar);        // 2
+        structuralFit.add(distBiStar);      // 3
+        structuralFit.add(distShared);      // 4
+        structuralFit.add(distComplete);    // 5
+        // return logolist
         return structuralFit.toLogoList();
     }
 
@@ -88,7 +128,7 @@ public class StructuralFit extends DefaultReporter {
     private double findMeanSquaredDeviation(double[] degreeVector, double[] otherVector) {
         double results = 0.0;
         for (int i = 0; i < CoreModel.N; i++) {
-            // summ(empiric - theoric) ^ 2 
+            // sum(empiric - theoric) ^ 2 
             results += Math.pow((degreeVector[i] - otherVector[i]), 2);
         }
         return results / CoreModel.N;
@@ -105,7 +145,7 @@ public class StructuralFit extends DefaultReporter {
         }
         return idealStarVector;
     }
-    
+
     private double[] findIdealBiStarVector() {
         double[] idealBiStarVector = new double[CoreModel.N];
         for (int i = 0; i < CoreModel.N; i++) {
