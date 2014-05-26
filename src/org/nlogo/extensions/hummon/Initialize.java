@@ -13,7 +13,8 @@ import org.nlogo.api.ExtensionException;
 import org.nlogo.api.LogoException;
 
 /**
- * Initialize the internal network taking values from the netlogo world.
+ * Initialize the JUNG network and all the Java structures that holds data in a
+ * single run of the model.
  *
  * @author Simone Gabbriellini
  */
@@ -32,7 +33,8 @@ public class Initialize extends DefaultCommand {
         // retrieve world
         CoreModel.world = (World) cntxt.getAgent().world();
         // set number of nodes
-        Number n = (Number) CoreModel.world.getObserverVariableByName("HOW-MANY-TURTLES");
+        Number n;
+        n = (Number) CoreModel.world.getObserverVariableByName("HOW-MANY-TURTLES");
         CoreModel.N = n.intValue();
         // clear previous degree distribution
         CoreModel.degScor = null;
