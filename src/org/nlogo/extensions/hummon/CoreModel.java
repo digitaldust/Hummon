@@ -92,7 +92,7 @@ public class CoreModel extends DefaultReporter {
         // get fitness function
         fitness = world.getObserverVariableByName("FITNESS").toString();
         // get fitness function
-        useDegree = (Boolean)world.getObserverVariableByName("USE-DEGREE");
+        useDegree = (Boolean) world.getObserverVariableByName("USE-DEGREE");
         // get tie formation method
         tieFormation = world.getObserverVariableByName("TIE-FORMATION").toString();
         // holds the list of other actors plus the calling turtle
@@ -371,7 +371,27 @@ public class CoreModel extends DefaultReporter {
         // make the new edge label already formatted with NetLogo logic for undirected links
         String id = makeEdgeId(self, actors.get(winId));
         // add what to do
-        results.add(whatToDo.get(winId));
+        boolean go = true;
+        if (useDegree) {
+            // in case we have to add a new link, check both capacities first
+            if (whatToDo.get(winId).equals("add")) {
+                Integer neighborCount = g.getNeighborCount(actors.get(winId));
+                Double maxTies = (Double) world.getTurtle(actors.get(winId)).getTurtleOrLinkVariable("MAX-TIES");
+                Integer neighborCountMe = g.getNeighborCount(self);
+                Double maxTiesMe = (Double) world.getTurtle(self).getTurtleOrLinkVariable("MAX-TIES");
+                if ((neighborCount < maxTies) && (neighborCountMe < maxTiesMe)) {
+                    results.add(whatToDo.get(winId));
+                    go = true;
+                } else {
+                    results.add("status-quo");
+                    go = false;
+                }
+            } else { // if it's status-quo or remove
+                results.add(whatToDo.get(winId));
+            }
+        } else { // if capacity is not used, then simply go on
+            results.add(whatToDo.get(winId));
+        }
         // find the right sequence of whos
         String[] splitted = id.split("-");
         // add from who
@@ -382,9 +402,18 @@ public class CoreModel extends DefaultReporter {
         if (whatToDo.get(winId).equals("status-quo")) {
             // nothing more to do
         } else if (whatToDo.get(winId).equals("add")) {
-            // add the capacity constraint - you can add only if the recipient can receive another link
             if (useDegree) {
-                
+                if (go) {
+                    // update self's utility only if something's changed
+                    world.getTurtle(self).setTurtleOrLinkVariable("UTILITY", utilities.get(winId));
+                    // add the link
+                    boolean addEdge = g.addEdge(id, Long.valueOf(splitted[0]), Long.valueOf(splitted[1]), EdgeType.UNDIRECTED);
+                    // if something went wrong
+                    if (!addEdge) {
+                        // throw exception
+                        throw new ExtensionException("cannot add a link");
+                    }
+                }
             } else {
                 // update self's utility only if something's changed
                 world.getTurtle(self).setTurtleOrLinkVariable("UTILITY", utilities.get(winId));
