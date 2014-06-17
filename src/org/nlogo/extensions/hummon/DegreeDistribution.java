@@ -38,7 +38,7 @@ public class DegreeDistribution extends DefaultReporter {
          * self 8 degree 6.0
          * self 9 degree 3.0. */
         // find the degree scorer for the network
-        CoreModel.degScor = new DegreeScorer<Long>(CoreModel.g);
+        DegreeScorer<Long> degScor = new DegreeScorer<Long>(CoreModel.g);
         // build an empty LogoList
         LogoListBuilder degreeDistribution = new LogoListBuilder();
         // for each node in the network
@@ -46,7 +46,7 @@ public class DegreeDistribution extends DefaultReporter {
             // DEBUG
             //System.out.println("self " + t + " degree " + Hummon.degScor.getVertexScore(t).doubleValue());
             // add the corresponding value to the LogoList
-            degreeDistribution.add(CoreModel.degScor.getVertexScore(t).doubleValue());
+            degreeDistribution.add(degScor.getVertexScore(t).doubleValue());
         }
         // return the list to NetLogo
         return degreeDistribution.toLogoList();

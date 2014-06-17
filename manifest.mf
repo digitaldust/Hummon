@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.9.2
+Created-By: 1.7.0_40-b43 (Oracle Corporation)
+Extension-Name: hummon
+Class-Manager: org.nlogo.extensions.hummon.Hummon
+NetLogo-Extension-API-Version: 5.0
+

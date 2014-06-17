@@ -81,7 +81,7 @@
             <attribute name="NetLogo-Extension-API-Version" value="5.0" />
         </manifest>
     </target>
-    <target name="-post-jar">
+    <!--<target name="-post-jar">
         <delete file="manifest.mf"/>
-    </target>
+    </target>-->
 </project>

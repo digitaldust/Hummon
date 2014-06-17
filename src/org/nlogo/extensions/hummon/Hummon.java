@@ -25,7 +25,5 @@ public class Hummon extends DefaultClassManager {
         primitiveManager.addPrimitive("structural-fit", new StructuralFit());
         /** Invoke this primitive to initialize and clear everything. */
         primitiveManager.addPrimitive("initialize", new Initialize());
-        /** Invoke this primitive to initialize and clear everything. */
-        primitiveManager.addPrimitive("find-expected", new TheoreticalExpectedResults());
     }
 }
