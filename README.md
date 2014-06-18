@@ -48,10 +48,10 @@ Plots and monitors help to understand what the simulation is doing at each gener
 ## THINGS TO NOTICE AND TRY
 
 As reported in the companion paper, three things are worth noticing:
-	- if fitness = old and use-capacity = off and 3 ≤ size ≤ 10 (Hummon's conditions): the model replicates Hummon's results as presented in Figure 10 of the cited paper (average similarity .91);
-	- if Hummon's conditions are used but size > 10: new structures are possible, like bi-star, three-star and so on, especially for higher initial densities;
-	- if Hummon's conditions are used but fitness = new: complete structures are now the most frequent structural outcome;
-	- if Hummon's conditions are used but use-capacity = on: complete structures disappear no matter the combination of benefit, cost and link formation process.
+- if fitness = old and use-capacity = off and 3 ≤ size ≤ 10 (Hummon's conditions): the model replicates Hummon's results as presented in Figure 10 of the cited paper (average similarity .91);
+- if Hummon's conditions are used but size > 10: new structures are possible, like bi-star, three-star and so on, especially for higher initial densities;
+- if Hummon's conditions are used but fitness = new: complete structures are now the most frequent structural outcome;
+- if Hummon's conditions are used but use-capacity = on: complete structures disappear no matter the combination of benefit, cost and link formation process.
 
 ## NETLOGO FEATURES
 
